@@ -1,0 +1,44 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  vercel:
+    name: Vercel Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      - run: pnpm i --frozen-lockfile || npm ci
+      - name: Vercel Deploy
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          working-directory: .
+          vercel-args: '--prod'
+
+  flyio:
+    name: Fly.io Deploy
+    runs-on: ubuntu-latest
+    needs: vercel
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Flyctl
+        uses: superfly/flyctl-actions/setup-flyctl@master
+      - name: Deploy to Fly.io
+        run: flyctl deploy --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+

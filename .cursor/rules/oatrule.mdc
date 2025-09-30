@@ -1,0 +1,16 @@
+---
+description: Правила для проекта OTA с GDS и AI
+globs:
+  - "**/*"
+alwaysApply: true
+rules:
+  - description: Использовать только TypeScript во фронтенде и бэкенде.
+  - description: Все API-ответы должны быть строго типизированы.
+  - description: Для UI использовать только shadcn/ui + Tailwind CSS.
+  - description: Не использовать jQuery, Bootstrap, или устаревшие библиотеки.
+  - description: Не использовать `any`, избегать `console.log` в продакшене.
+  - description: Бэкенд и фронтенд должны быть изолированы.
+  - description: Все внешние ключи и конфиги хранить в `.env`.
+  - description: Кэшировать результаты поиска через Redis.
+  - description: Для поиска использовать только бизнес- и первый классы.
+  - description: Использовать REST API или tRPC между фронтом и бэком.
