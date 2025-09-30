@@ -1,73 +1,110 @@
 # OTA Business Class
 
-Premium OTA for Business/First flights with Amadeus & Sabre.
+Премиальная платформа для бронирования бизнес и первого класса рейсов.
 
-## Structure
+## 🚀 Технологии
 
-- `frontend/` - Next.js 14 (Vercel)
-- `backend/` - Fastify + TypeScript (Fly.io)
+- **Frontend**: Next.js 14, TypeScript, Tailwind CSS, shadcn/ui
+- **Backend**: Next.js API Routes (Serverless)
+- **База данных**: PostgreSQL + Prisma ORM
+- **Кэш**: Redis
+- **Платежи**: Stripe
+- **GDS**: Amadeus, Sabre
+- **Деплой**: Vercel
 
-## Tech Stack
+## 📁 Структура проекта
 
-### Frontend
-- Next.js 14 (App Router, TypeScript)
-- Tailwind CSS + shadcn/ui
-- Framer Motion
-- Stripe Elements
+```
+frontend/                 # Next.js приложение
+├── src/
+│   ├── app/             # App Router
+│   │   ├── api/         # API Routes
+│   │   ├── search/      # Страница поиска
+│   │   ├── results/     # Результаты поиска
+│   │   ├── checkout/    # Оформление заказа
+│   │   └── profile/     # Профиль пользователя
+│   ├── components/      # UI компоненты
+│   ├── lib/            # Утилиты и конфигурация
+│   └── gds/            # GDS интеграции
+├── prisma/             # Prisma схема
+└── package.json
+```
 
-### Backend  
-- Fastify + TypeScript
-- Prisma ORM (PostgreSQL)
-- Redis cache
-- Stripe API
-- GDS: Amadeus & Sabre
+## 🛠️ Установка
 
-## Development
-
-### Frontend
+1. **Клонировать репозиторий:**
 ```bash
+git clone <repository-url>
 cd frontend
-npm install
-npm run dev
 ```
 
-### Backend
+2. **Установить зависимости:**
 ```bash
-cd backend
 npm install
+```
+
+3. **Настроить переменные окружения:**
+```bash
+cp .env.example .env.local
+# Заполнить .env.local с реальными ключами
+```
+
+4. **Настроить базу данных:**
+```bash
 npx prisma generate
+npx prisma migrate dev
+```
+
+5. **Запустить dev сервер:**
+```bash
 npm run dev
 ```
 
-## Environment Variables
+## 🔑 Переменные окружения
 
-### Frontend (.env.local)
-```
-NEXT_PUBLIC_API_BASE_URL=https://ota-business-class-api.fly.dev
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
-```
+### Обязательные:
+- `DATABASE_URL` - PostgreSQL подключение
+- `REDIS_URL` - Redis подключение
+- `STRIPE_SECRET_KEY` - Stripe секретный ключ
+- `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` - Stripe публичный ключ
+- `AMADEUS_CLIENT_ID` - Amadeus API ключ
+- `AMADEUS_CLIENT_SECRET` - Amadeus API секрет
 
-### Backend (.env)
-```
-DATABASE_URL=postgresql://...
-REDIS_URL=redis://...
-STRIPE_SECRET_KEY=sk_test_...
-STRIPE_WEBHOOK_SECRET=whsec_...
-AMADEUS_CLIENT_ID=...
-AMADEUS_CLIENT_SECRET=...
-SABRE_CLIENT_ID=...
-SABRE_CLIENT_SECRET=...
-```
+### Опциональные:
+- `SABRE_CLIENT_ID` - Sabre API ключ
+- `SABRE_CLIENT_SECRET` - Sabre API секрет
+- `STRIPE_WEBHOOK_SECRET` - Stripe webhook секрет
 
-## Deployment
+## 🚀 Деплой на Vercel
 
-- Frontend: Vercel (automatic on push to main)
-- Backend: Fly.io (automatic on push to main)
+1. **Подключить GitHub репозиторий к Vercel**
+2. **Добавить переменные окружения в Vercel Dashboard**
+3. **Настроить GitHub Secrets:**
+   - `VERCEL_TOKEN`
+   - `VERCEL_ORG_ID` 
+   - `VERCEL_PROJECT_ID`
 
-## API Endpoints
+## 📋 API Endpoints
 
-- `GET /api/search/flights` - Search flights
-- `POST /api/checkout` - Create payment intent
+- `GET /api/search/flights` - Поиск рейсов
+- `POST /api/checkout` - Создание Payment Intent
 - `POST /api/stripe/webhook` - Stripe webhook
-- `GET /api/user` - User profile
-- `GET /health` - Health check
+- `GET /api/user` - Данные пользователя
+
+## 🧪 Тестирование
+
+```bash
+npm run test        # Запуск тестов
+npm run test:run    # Запуск тестов без UI
+```
+
+## 📝 Скрипты
+
+```bash
+npm run dev              # Dev сервер
+npm run build           # Сборка
+npm run start           # Production сервер
+npm run prisma:generate # Генерация Prisma клиента
+npm run prisma:migrate  # Миграции БД
+npm run prisma:studio   # Prisma Studio
+```

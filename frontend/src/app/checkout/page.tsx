@@ -1,6 +1,6 @@
 'use client'
 import { useSearchParams } from 'next/navigation'
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
 import { Button } from '@/components/ui/button'
@@ -32,7 +32,7 @@ function CheckoutForm({ clientSecret }: { clientSecret: string }) {
   )
 }
 
-export default function CheckoutPage() {
+function CheckoutContent() {
   const params = useSearchParams()
   const price = Number(params.get('price') || 0)
   const [clientSecret, setClientSecret] = useState<string | null>(null)
@@ -53,7 +53,7 @@ export default function CheckoutPage() {
   return (
     <div className="mx-auto max-w-2xl p-6">
       <h1 className="text-2xl font-semibold mb-4">Checkout</h1>
-      <div className="mb-6">Total: <span className="font-bold">${'{'}price{'}'}</span></div>
+      <div className="mb-6">Total: <span className="font-bold">${price}</span></div>
       {!clientSecret ? (
         <Button disabled={loading} onClick={createPI}>
           {loading ? 'Creating...' : 'Create Payment'}
@@ -67,4 +67,10 @@ export default function CheckoutPage() {
   )
 }
 
-
+export default function CheckoutPage() {
+  return (
+    <Suspense fallback={<div className="p-6">Loading...</div>}>
+      <CheckoutContent />
+    </Suspense>
+  )
+}

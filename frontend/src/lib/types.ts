@@ -1,7 +1,4 @@
-// Базовые типы домена OTA Business Class
-
 export type CabinClass = 'Business' | 'First'
-
 export type Provider = 'Amadeus' | 'Sabre'
 
 export type FlightOffer = {
@@ -23,11 +20,3 @@ export type SearchQuery = {
   class: CabinClass
   adults?: number
 }
-
-export type NormalizedFlightResponse = {
-  offers: FlightOffer[]
-  source: Provider[]
-  cached?: boolean
-}
-
-

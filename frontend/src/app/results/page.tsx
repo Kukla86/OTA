@@ -1,12 +1,12 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import type { FlightOffer } from '@/lib/types'
 import { FlightCard } from '@/components/FlightCard'
 import { apiUrl } from '@/lib/api'
 import { Button } from '@/components/ui/button'
 
-export default function ResultsPage() {
+function ResultsContent() {
   const params = useSearchParams()
   const router = useRouter()
   const [offers, setOffers] = useState<FlightOffer[] | null>(null)
@@ -46,4 +46,10 @@ export default function ResultsPage() {
   )
 }
 
-
+export default function ResultsPage() {
+  return (
+    <Suspense fallback={<div className="p-6">Loading...</div>}>
+      <ResultsContent />
+    </Suspense>
+  )
+}
